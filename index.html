@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>待辦清單 — 簡約任務看板</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-container">
+    <header class="app-header">
+      <div>
+        <h1 class="app-title">待辦清單</h1>
+        <p id="current-date" class="app-subtitle"></p>
+      </div>
+      <div class="stats-pill" id="stats-summary" aria-live="polite">
+        <span id="pending-count">0</span> 項待辦
+      </div>
+    </header>
+
+    <!-- 新增任務表單 -->
+    <form id="todo-form" class="todo-form" autocomplete="off">
+      <div class="input-group">
+        <input
+          type="text"
+          id="todo-input"
+          class="todo-input"
+          placeholder="新增一項任務..."
+          aria-label="任務內容"
+          maxlength="120"
+          required
+        />
+        <input
+          type="text"
+          id="todo-assignee"
+          class="todo-assignee"
+          placeholder="負責人 (必填)"
+          aria-label="負責人資料"
+          maxlength="40"
+          required
+        />
+        <select id="todo-priority" class="todo-priority" aria-label="優先程度">
+          <option value="high">High</option>
+          <option value="medium" selected>Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select id="todo-category" class="todo-category" aria-label="任務分類">
+          <option value="work">工作</option>
+          <option value="life">生活</option>
+        </select>
+      </div>
+      <button type="submit" id="add-btn" class="add-btn" aria-label="新增任務">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>新增</span>
+      </button>
+    </form>
+
+    <!-- 分類篩選與操作列 -->
+    <section class="toolbar" aria-label="任務篩選">
+      <div class="filter-tabs" role="tablist">
+        <button type="button" class="filter-tab active" data-filter="all" role="tab" aria-selected="true">
+          全部 <span class="tab-count" id="count-all">0</span>
+        </button>
+        <button type="button" class="filter-tab" data-filter="work" role="tab" aria-selected="false">
+          <span class="dot dot-work"></span>工作 <span class="tab-count" id="count-work">0</span>
+        </button>
+        <button type="button" class="filter-tab" data-filter="life" role="tab" aria-selected="false">
+          <span class="dot dot-life"></span>生活 <span class="tab-count" id="count-life">0</span>
+        </button>
+      </div>
+
+      <button type="button" id="clear-completed" class="clear-btn" hidden>
+        清除已完成 (done)
+      </button>
+    </section>
+
+    <!-- 三欄式看板 -->
+    <section class="kanban-board" aria-label="任務看板">
+      <!-- To-do 欄位 -->
+      <div class="kanban-column" data-status="todo">
+        <div class="column-header">
+          <div class="column-title-group">
+            <span class="status-dot status-dot-todo" aria-hidden="true"></span>
+            <h2 class="column-title">To-do</h2>
+          </div>
+          <span class="column-count" id="count-status-todo">0</span>
+        </div>
+        <ul class="column-list" id="list-todo" data-status="todo" aria-label="To-do 任務列表"></ul>
+      </div>
+
+      <!-- process 欄位 -->
+      <div class="kanban-column" data-status="process">
+        <div class="column-header">
+          <div class="column-title-group">
+            <span class="status-dot status-dot-process" aria-hidden="true"></span>
+            <h2 class="column-title">process</h2>
+          </div>
+          <span class="column-count" id="count-status-process">0</span>
+        </div>
+        <ul class="column-list" id="list-process" data-status="process" aria-label="process 任務列表"></ul>
+      </div>
+
+      <!-- done 欄位 -->
+      <div class="kanban-column" data-status="done">
+        <div class="column-header">
+          <div class="column-title-group">
+            <span class="status-dot status-dot-done" aria-hidden="true"></span>
+            <h2 class="column-title">done</h2>
+          </div>
+          <span class="column-count" id="count-status-done">0</span>
+        </div>
+        <ul class="column-list" id="list-done" data-status="done" aria-label="done 任務列表"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
